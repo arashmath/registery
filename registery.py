@@ -7,14 +7,14 @@ edit : To edit any information about a person
 quit : to exit from the program """)
 
 
-listOfPeople = []
+list_of_people = []
 
 def show():
     i = 1
-    if len(listOfPeople) == 0:
+    if len(list_of_people) == 0:
         print("The list is empty.")
     else:
-        for person in listOfPeople:
+        for person in list_of_people:
             print(str(i) + ". Name: " + person["last_name"] + ", " + person["first_name"] + "  Age: " + person["age"] + "  Job: " + person["job"])
             i += 1
 
@@ -25,14 +25,14 @@ def add():
     age = input(" Age : ")
     job = input(" Job : ")
     person = {"first_name":first_name, "last_name":last_name, "age":age, "job":job}
-    listOfPeople.append(person)
+    list_of_people.append(person)
     print(" Person added successfully !")
 
 
 def delete():
     to_be_deleted = []
     delete_by_first_name = input(" Enter the first name of the person you want to delete: ")
-    for person in listOfPeople:
+    for person in list_of_people:
         if person["first_name"] == delete_by_first_name:
             to_be_deleted.append(person)
     i = 1
@@ -49,7 +49,7 @@ def delete():
             print("Exited from del function.")
             break
         elif int(ans) in range(1,i):
-            listOfPeople.pop(listOfPeople.index(to_be_deleted[int(ans)-1]))
+            list_of_people.pop(list_of_people.index(to_be_deleted[int(ans)-1]))
             to_be_deleted.pop(int(ans)-1)
             print(" Removal done successfully.")
             continue
@@ -72,10 +72,10 @@ def edit():
         if int(ans) == 0:
             print("Function edit exited.")
             break
-        elif int(ans) in range(1,len(listOfPeople)+1):
-            showInformation(listOfPeople[int(ans)-1])
+        elif int(ans) in range(1,len(list_of_people)+1):
+            showInformation(list_of_people[int(ans)-1])
             info_to_edit = input(" Enter the information you want to edit: first name, last name, age or job\n")
-            person_to_edit = listOfPeople[int(ans)-1]
+            person_to_edit = list_of_people[int(ans)-1]
             if info_to_edit == "first name":
                 person_to_edit["first_name"] = input("Enter the first name: ")
             elif info_to_edit == "last name":

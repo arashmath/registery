@@ -7,8 +7,14 @@ edit : To edit any information about a person
 quit : to exit from the program 
 Special thanks to my instructor, Arian Rahimi. Github: @itsarianr""")
 
+import csv
 
 list_of_people = [] # List where all the information is stored
+
+def length_of_file(file_name): # Returns the number of rows in list_of_people.csv
+    file_to_list = list(file_name)
+    return len(file_to_list)
+
 
 def show():  # Shows the entire list of people when called
     i = 1
@@ -20,13 +26,15 @@ def show():  # Shows the entire list of people when called
             i += 1
 
 
-def add(): # Adds a person to list_of_people when called
+def add(): # Adds a person to list_of_people.csv when called
     first_name = input(" First Name : ")
     last_name = input(" Last Name : ")
     age = input(" Age : ")
     job = input(" Job : ")
-    person = {"first_name":first_name, "last_name":last_name, "age":age, "job":job}
-    list_of_people.append(person)
+    with open("list_of_people.csv", "a") as registery_file:
+        field_names = ["first_name", "last_name", "age", "job"]
+        writer = csv.DictWriter(registery_file, fieldnames=field_names)
+        writer.writerow({"first_name":first_name, "last_name":last_name, "age":age, "job":job})
     print(" Person added successfully !")
 
 

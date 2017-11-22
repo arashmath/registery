@@ -4,12 +4,13 @@ add : To add a person to the list
 del : To remove a person from the list
 show : To view the information of every person in the list
 edit : To edit any information about a person
-quit : to exit from the program """)
+quit : to exit from the program 
+Special thanks to my instructor, Arian Rahimi. Github: @itsarianr""")
 
 
-list_of_people = []
+list_of_people = [] # List where all the information is stored
 
-def show():
+def show():  # Shows the entire list of people when called
     i = 1
     if len(list_of_people) == 0:
         print("The list is empty.")
@@ -19,7 +20,7 @@ def show():
             i += 1
 
 
-def add():
+def add(): # Adds a person to list_of_people when called
     first_name = input(" First Name : ")
     last_name = input(" Last Name : ")
     age = input(" Age : ")
@@ -29,7 +30,7 @@ def add():
     print(" Person added successfully !")
 
 
-def delete():
+def delete(): # Deletes a person from list_of_people when called
     to_be_deleted = []
     delete_by_first_name = input(" Enter the first name of the person you want to delete: ")
     for person in list_of_people:
@@ -58,15 +59,15 @@ def delete():
             continue
 # End of function delete()
 
-def showInformation(person):
+def showInformation(person): # Shows the information of a person when called by del() function
     print(" First Name: " + person["first_name"])
     print(" Last Name: " + person["last_name"])
     print(" Age: " + str(person["age"]))
     print(" Job: " + person["job"])
 
 
-def edit():
-    while(True):
+def edit(): # Edits the informaton of a person when called
+    while True:
         show()
         ans = input(" Enter the number for the person you want to edit (or 0 to quit): ")
         if int(ans) == 0:

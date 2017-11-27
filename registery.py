@@ -18,13 +18,18 @@ def length_of_file(file_name): # Returns the number of rows in list_of_people.cs
 
 def show():  # Shows the entire list of people when called
     i = 1
-    if len(list_of_people) == 0:
-        print("The list is empty.")
-    else:
-        for person in list_of_people:
-            print(str(i) + ". Name: " + person["last_name"] + ", " + person["first_name"] + "  Age: " + person["age"] + "  Job: " + person["job"])
-            i += 1
-
+    with open("list_of_people.csv", "r") as registery_file:
+        if length_of_file("list_of_people.csv") == 0:
+            print("The list is empty.")
+        else:
+            reader = csv.DictReader(registery_file)
+            for row in reader:
+                print(str(i) + ". Name: " + row["last_name"] + ", " + row["first_name"] + "  Age: " + row["age"] + "  Job: " + row["job"])
+                i += 1
+    registery_file.close()            
+        #  for person in list_of_people:
+         #    print(str(i) + ". Name: " + person["last_name"] + ", " + person["first_name"] + "  Age: " + person["age"] + "  Job: " + person["job"])
+             
 
 def add(): # Adds a person to list_of_people.csv when called
     first_name = input(" First Name : ")
@@ -36,6 +41,7 @@ def add(): # Adds a person to list_of_people.csv when called
         writer = csv.DictWriter(registery_file, fieldnames=field_names)
         writer.writerow({"first_name":first_name, "last_name":last_name, "age":age, "job":job})
     print(" Person added successfully !")
+    registery_file.close()
 
 
 def delete(): # Deletes a person from list_of_people when called
@@ -67,7 +73,7 @@ def delete(): # Deletes a person from list_of_people when called
             continue
 # End of function delete()
 
-def showInformation(person): # Shows the information of a person when called by del() function
+def show_information(person): # Shows the information of a person when called by delete() function
     print(" First Name: " + person["first_name"])
     print(" Last Name: " + person["last_name"])
     print(" Age: " + str(person["age"]))
@@ -82,7 +88,7 @@ def edit(): # Edits the informaton of a person when called
             print("Function edit exited.")
             break
         elif int(ans) in range(1,len(list_of_people)+1):
-            showInformation(list_of_people[int(ans)-1])
+            show_information(list_of_people[int(ans)-1])
             info_to_edit = input(" Enter the information you want to edit: first name, last name, age or job\n")
             person_to_edit = list_of_people[int(ans)-1]
             if info_to_edit == "first name":

@@ -18,17 +18,15 @@ def length_of_file(file_name): # Returns the number of rows in list_of_people.cs
 
 def show():  # Shows the entire list of people when called
     i = 1
-    with open("list_of_people.csv", "r") as registery_file:
-        if length_of_file("list_of_people.csv") == 0:
-            print("The list is empty.")
-        else:
-            reader = csv.DictReader(registery_file)
+    if length_of_file("list_of_people.csv") == 0:
+        print("The list is empty.")
+    else:
+        with open("list_of_people.csv", "r") as registery_file:
+            reader = csv.DictReader(registery_file, delimiter=',')
             for row in reader:
                 print(str(i) + ". Name: " + row["last_name"] + ", " + row["first_name"] + "  Age: " + row["age"] + "  Job: " + row["job"])
                 i += 1
-    registery_file.close()            
-        #  for person in list_of_people:
-         #    print(str(i) + ". Name: " + person["last_name"] + ", " + person["first_name"] + "  Age: " + person["age"] + "  Job: " + person["job"])
+    registery_file.close()
              
 
 def add(): # Adds a person to list_of_people.csv when called
@@ -37,19 +35,21 @@ def add(): # Adds a person to list_of_people.csv when called
     age = input(" Age : ")
     job = input(" Job : ")
     with open("list_of_people.csv", "a") as registery_file:
-        field_names = ["first_name", "last_name", "age", "job"]
-        writer = csv.DictWriter(registery_file, fieldnames=field_names)
+        fieldnames = ["first_name", "last_name", "age", "job"]
+        writer = csv.DictWriter(registery_file, fieldnames = fieldnames)
         writer.writerow({"first_name":first_name, "last_name":last_name, "age":age, "job":job})
     print(" Person added successfully !")
     registery_file.close()
 
-
+#problems on lines:  46: why "r" / how does it cause data to be deleted?
 def delete(): # Deletes a person from list_of_people when called
     to_be_deleted = []
     delete_by_first_name = input(" Enter the first name of the person you want to delete: ")
-    for person in list_of_people:
-        if person["first_name"] == delete_by_first_name:
-            to_be_deleted.append(person)
+    with open("list_of_people.csv", "r") as registery_file:
+        reader = csv.DictReader(registery_file)
+        for row in reader:
+            if row["first_name"] == delete_by_first_name:
+                to_be_deleted.append(row)
     i = 1
     if len(to_be_deleted) == 0:
         print("Nobody existed with the first name " + delete_by_first_name)
@@ -64,8 +64,15 @@ def delete(): # Deletes a person from list_of_people when called
             print("Exited from del function.")
             break
         elif int(ans) in range(1,i):
-            list_of_people.pop(list_of_people.index(to_be_deleted[int(ans)-1]))
-            to_be_deleted.pop(int(ans)-1)
+            with open("list_of_people.csv", "w"):
+                field_names = ["first_name", "last_name", "age", "job"]
+                writer = csv.DictWriter(registery_file, fieldnames = field_names)
+                reader = csv.DictReader(registery_file)
+                for row in reader:
+                    if row == to_be_deleted[int(ans)-1]:
+                        writer.writerow(row)
+                        to_be_deleted.pop(int(ans)-1)
+            #list_of_people.pop(list_of_people.index(to_be_deleted[int(ans)-1]))
             print(" Removal done successfully.")
             continue
         else:
